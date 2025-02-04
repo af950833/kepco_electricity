@@ -40,6 +40,8 @@ https://online.kepco.co.kr/PRM033D00
 센서를 신규로 생성하거나 Home Assistant를 재시작하면 해당 센서는 2시간 동안 아무 수치가 나타나지 않고 "알 수 없음" 상태로 보입니다.
 아래와 같은 자동화를 통해 수동으로 업데이트를 해 주시면 HA 재시작이나 월사용량 센서의 수치가 변경되었을 때 등으로 수동 업데이트가 가능합니다.
 
+<pre>
+<code>
 automation:
   - alias: Kepco Update When HA Start
     trigger:
@@ -53,4 +55,5 @@ automation:
           entity_id:
             - sensor.kepco_bill_1
             - sensor.kepco_bill_2
-
+</code>
+</pre>
