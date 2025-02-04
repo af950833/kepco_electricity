@@ -1,0 +1,22 @@
+{
+  "domain": "kepco_electricity",
+  "name": "KEPCO 전기요금",
+  "config_flow": true,
+  "documentation": "https://github.com/af950833/kepco_electricity",
+  "codeowners": ["@af950833"],
+  "requirements": [],
+  "version": "1.0.0",
+  "iot_class": "cloud_polling",
+  "translations": [
+    {
+      "locale": "en",
+      "integration": "kepco_electricity",
+      "files": ["translations/en.json"]
+    },
+    {
+      "locale": "ko",
+      "integration": "kepco_electricity",
+      "files": ["translations/ko.json"]
+    }
+  ]
+}
