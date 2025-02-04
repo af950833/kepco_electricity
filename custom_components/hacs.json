@@ -1,0 +1,7 @@
+{
+  "name": "Kepco Electricity",
+  "country": "KR",
+  "domains": ["sensor"],
+  "render_readme": true,
+  "icons": ["images/logo.png"]
+}
