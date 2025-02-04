@@ -1,0 +1,40 @@
+{
+    "title": "KEPCO Electricity Bill",
+    "config": {
+        "step": {
+            "user": {
+                "title": "KEPCO Electricity Bill Setup",
+                "description": "This integration calculates electricity bills for KEPCO.",
+                "data": {
+                    "meter_reading_day": "Meter Reading Day",
+                    "usage_entity": "Monthly Usage Sensor",
+					"sensor_name": "Sensor Name",
+                    "lhv_clcd": "Contract Type",
+                    "dwel_clcd": "Residential Type",
+                    "wlfr_dc_clcd1": "Welfare Discount",
+                    "wlfr_dc_clcd2": "Large Family / Life Support Device"
+                }
+            }
+        },
+        "error": {
+            "invalid_entity": "Invalid sensor entity. Please select a valid sensor."
+        }
+    },
+    "options": {
+        "step": {
+            "user": {
+                "title": "KEPCO Electricity Options",
+                "description": "Modify the configuration options.",
+                "data": {
+                    "meter_reading_day": "Meter Reading Day",
+                    "usage_entity": "Monthly Usage Sensor",
+					"sensor_name": "Sensor Name",
+                    "lhv_clcd": "Contract Type",
+                    "dwel_clcd": "Residential Type",
+                    "wlfr_dc_clcd1": "Welfare Discount",
+                    "wlfr_dc_clcd2": "Large Family / Life Support Device"
+                }
+            }
+        }
+    }
+}
