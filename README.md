@@ -8,7 +8,7 @@ Home Assistant에서 한국ON 전기요금계산기의 요금을 센서로 사�
 ## 1. 한전 On 계산기 사이트 링크
 https://online.kepco.co.kr/PRM033D00
 
-해당 사이트의 종류의 계약을 지원하지 않으며, 주택용 고압/저압만을 지원합니다.
+해당 사이트의 모든 종류의 계약을 지원하지는 않으며, 일반적인 주택용 고압/저압만을 지원합니다.
 
 
 ## 2. Home Assistant에 Kepco Electricity 설치
