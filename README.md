@@ -18,6 +18,8 @@ https://online.kepco.co.kr/PRM033D00
 1. HACS를 이용하거나 수동으로 **Kepco Electricity**을 설치합니다.
 2. 설치 후 Home Assistant를 재부팅합니다.
 
+![Kepco](images/kepco.png)
+
 ### 통합 구성 요소 추가
 
 1. **설정 -> 기기 및 서비스 -> 통합구성요소 추가하기**에서 `KEPCO 전기요금`을 추가합니다.
