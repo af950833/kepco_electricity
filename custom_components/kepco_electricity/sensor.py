@@ -155,8 +155,10 @@ class KepcoElectricitySensor(SensorEntity, RestoreEntity):
                 "전력량요금": res_obj.get("costUse", 0),
                 "다자녀할인": res_obj.get("costDisMchild", 0),
                 "요금동결할인": res_obj.get("calcostList")[0].get("housecalList")[0].get("disVlnCost",0),
+                "200이하할인": res_obj.get("calcostList")[0].get("costUnder200"),
                 "연료비조정요금": res_obj.get("costFuel", 0),
                 "기후환경요금": res_obj.get("costClim", 0),
+                "전기요금": res_obj.get("costElecUse", 0),
                 "부가가치세": res_obj.get("costAddTax", 0),
                 "전력산업기반기금": res_obj.get("costElecFund", 0),
                 "총 청구금액": res_obj.get("costTotCharge", 0)
