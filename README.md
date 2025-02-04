@@ -1,7 +1,7 @@
 # Kepco Electricity
 Home Assistant - 한전 전기요금계산기
 
-![Tmap Travel Time Logo](images/logo.png)
+![Kepco Logo](images/logo.png)
 
 Home Assistant에서 한국ON 전기요금계산기의 요금을 센서로 사용하기 위해 만든 Custom Component 입니다.
 
