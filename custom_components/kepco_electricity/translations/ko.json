@@ -1,0 +1,40 @@
+{
+    "title": "KEPCO 전기요금",
+    "config": {
+        "step": {
+            "user": {
+                "title": "한국전력 요금 계산 설정",
+                "description": "이 통합구성요소는 한국전력 전기요금을 계산합니다.",
+                "data": {
+                    "meter_reading_day": "검침일",
+                    "usage_entity": "월사용량 센서",
+					"sensor_name": "센서 이름",
+                    "lhv_clcd": "계약종별",
+                    "dwel_clcd": "주거구분",
+                    "wlfr_dc_clcd1": "복지할인",
+                    "wlfr_dc_clcd2": "대가족요금/생명유지장치"
+                }
+            }
+        },
+        "error": {
+            "invalid_entity": "잘못된 센서 엔티티입니다."
+        }
+    },
+    "options": {
+        "step": {
+            "user": {
+                "title": "KEPCO 요금 옵션",
+                "description": "설정 옵션을 변경하세요.",
+                "data": {
+                    "meter_reading_day": "검침일",
+                    "usage_entity": "월사용량 센서",
+					"sensor_name": "센서 이름",
+                    "lhv_clcd": "계약종별",
+                    "dwel_clcd": "주거구분",
+                    "wlfr_dc_clcd1": "복지할인",
+                    "wlfr_dc_clcd2": "대가족요금/생명유지장치"
+                }
+            }
+        }
+    }
+}
