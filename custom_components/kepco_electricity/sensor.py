@@ -58,7 +58,6 @@ class KepcoElectricitySensor(SensorEntity, RestoreEntity):
         self._config_entry = config_entry
         self._attr_name = config_entry.options.get("sensor_name", "Kepco Bill")  # 사용자가 입력한 센서 이름 적용
         self._attr_unique_id = config_entry.entry_id
-        self._state = None
         self._attributes = {}
         self._last_integer_usage = None  # 마지막 정수 값 저장
 
@@ -69,10 +68,25 @@ class KepcoElectricitySensor(SensorEntity, RestoreEntity):
     async def async_added_to_hass(self):
         """HA 재시작 시 마지막 상태 복원 및 개별 업데이트 주기 적용"""
         last_state = await self.async_get_last_state()
+    
         if last_state:
-            self._state = last_state.state
-            self._last_integer_usage = last_state.attributes.get("월사용량", None)
-            _LOGGER.debug("복원된 상태: %s, 월사용량: %s", self._state, self._last_integer_usage)
+            # ✅ 이전 상태가 비정상적인 경우, 복원하지 않고 업데이트 트리거
+            if last_state.state in [None, "unknown", "unavailable"]:
+                _LOGGER.warning("이전 상태가 비정상적임: %s → 상태 및 속성 복원 안함", last_state.state)
+                self._attr_native_value = None  # 상태를 직접 설정하지 않음
+                self._attributes = {}  # 속성도 초기화 (업데이트를 강제 실행하기 위해)
+                self._last_integer_usage = None
+                await self.async_update()  # ✅ 강제 업데이트 실행
+            else:
+                # ✅ 정상적인 경우만 상태 & 속성 복원
+                self._attr_native_value = last_state.state
+                self._attributes = dict(last_state.attributes)
+                self._last_integer_usage = self._attributes.get("월사용량", None)
+    
+                _LOGGER.debug("정상 상태 복원됨: %s, 월사용량: %s", self._attr_native_value, self._last_integer_usage)
+    
+                # ✅ 정상 복원된 경우, GUI에 즉시 반영
+                self.async_write_ha_state()
             
     async def async_update(self, _=None):
         """API 호출 및 상태 업데이트"""
