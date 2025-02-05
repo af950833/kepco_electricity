@@ -29,7 +29,7 @@ class KepcoConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 user_input["sensor_name"] = user_input.get("sensor_name", "kepco_bill")  # 센서 이름 저장
 
                 return self.async_create_entry(
-                    title="KEPCO 전기요금", 
+                    title=user_input["sensor_name"], 
                     data={}, 
                     options=user_input
                 )
@@ -130,7 +130,7 @@ class KepcoOptionsFlow(config_entries.OptionsFlow):
             user_input["wlfr_dc_clcd1"] = "" if user_input["wlfr_dc_clcd1"] == "none" else user_input["wlfr_dc_clcd1"]
             user_input["wlfr_dc_clcd2"] = "" if user_input["wlfr_dc_clcd2"] == "none" else user_input["wlfr_dc_clcd2"]
             return self.async_create_entry(
-                title="KEPCO 전기요금",
+                title=user_input["sensor_name"],
                 data=user_input
             )
             
