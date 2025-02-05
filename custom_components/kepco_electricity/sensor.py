@@ -71,8 +71,8 @@ class KepcoElectricitySensor(SensorEntity, RestoreEntity):
         last_state = await self.async_get_last_state()
         if last_state:
             self._state = last_state.state
-            self._last_integer_usage = last_state.attributes.get("마지막 사용량 정수", None)
-            _LOGGER.debug("복원된 상태: %s, 마지막 사용량 정수: %s", self._state, self._last_integer_usage)
+            self._last_integer_usage = last_state.attributes.get("월사용량", None)
+            _LOGGER.debug("복원된 상태: %s, 월사용량: %s", self._state, self._last_integer_usage)
             
     async def async_update(self, _=None):
         """API 호출 및 상태 업데이트"""
