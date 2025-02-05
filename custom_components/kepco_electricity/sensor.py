@@ -5,8 +5,6 @@ from homeassistant.helpers.restore_state import RestoreEntity
 from .const import DOMAIN
 from datetime import datetime, timedelta
 
-SCAN_INTERVAL = timedelta(minutes=120)
-
 _LOGGER = logging.getLogger(__name__)
 
 def calculate_billing_period(meter_reading_day: int):
@@ -62,21 +60,38 @@ class KepcoElectricitySensor(SensorEntity, RestoreEntity):
         self._attr_unique_id = config_entry.entry_id
         self._state = None
         self._attributes = {}
+        self._last_integer_usage = None  # 마지막 정수 값 저장
 
     @property
     def extra_state_attributes(self):
         return self._attributes
 
-    async def async_update(self):
+    async def async_added_to_hass(self):
+        """HA 재시작 시 마지막 상태 복원 및 개별 업데이트 주기 적용"""
+        last_state = await self.async_get_last_state()
+        if last_state:
+            self._state = last_state.state
+            self._last_integer_usage = last_state.attributes.get("마지막 사용량 정수", None)
+            _LOGGER.debug("복원된 상태: %s, 마지막 사용량 정수: %s", self._state, self._last_integer_usage)
+            
+    async def async_update(self, _=None):
         """API 호출 및 상태 업데이트"""
         try:
             options = self._config_entry.options
+            
             reading_day = options.get("meter_reading_day", 25)
             usage_entity = options.get("usage_entity")
 
             # 사용량 조회
             state = self.hass.states.get(usage_entity)
             usage = int(float(state.state)) if state else 0
+            
+            # 정수 부분이 변경되었는지 확인
+            if self._last_integer_usage is not None and self._last_integer_usage == usage:
+                _LOGGER.debug("정수 값 변경 없음, 업데이트 건너뜀.")
+                return
+                
+            self._last_integer_usage = usage
 
             # 날짜 계산
             start_date, end_date = calculate_billing_period(reading_day)
@@ -113,6 +128,7 @@ class KepcoElectricitySensor(SensorEntity, RestoreEntity):
 
             # API 호출
             response = await self._async_fetch_data(payload)
+            _LOGGER.debug("API 호출")
             if not response or "dma_resObj" not in response:
                 return
 
@@ -151,6 +167,7 @@ class KepcoElectricitySensor(SensorEntity, RestoreEntity):
                 "대가족요금/생명유지장치": family_discount,
                 "검침 시작일": start_date,
                 "검침 종료일": end_date,
+                "월사용량": self._last_integer_usage,
                 "기본요금": res_obj.get("costBasic", 0),
                 "전력량요금": res_obj.get("costUse", 0),
                 "다자녀할인": res_obj.get("costDisMchild", 0),
