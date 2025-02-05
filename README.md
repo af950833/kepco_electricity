@@ -35,25 +35,4 @@ https://online.kepco.co.kr/PRM033D00
 ## 3. 센서 업데이트 주기
 
 한전 사이트에 접속해서 전기요금을 계산하고 결과를 받아 오는 방식이라 너무 빈번한 주기의 업데이트는 한전 서버에 무리를 줄 수 있습니다.
-따라사 현재 컴포넌트는 2시간(120분)이 기본 업데이트 주기입니다.
-
-센서를 신규로 생성하거나 Home Assistant를 재시작하면 해당 센서는 2시간 동안 아무 수치가 나타나지 않고 "알 수 없음" 상태로 보입니다.
-아래와 같은 자동화를 통해 수동으로 업데이트를 해 주시면 HA 재시작이나 월사용량 센서의 수치가 변경되었을 때 등으로 수동 업데이트가 가능합니다.
-
-<pre>
-<code>
-automation:
-  - alias: Kepco Update When HA Start
-    trigger:
-      platform: homeassistant
-      event: start
-    action:
-      - delay:
-          seconds: 20
-      - service: homeassistant.update_entity
-        target:
-          entity_id:
-            - sensor.kepco_bill_1
-            - sensor.kepco_bill_2
-</code>
-</pre>
+HA가 재시작하거나 월사용량의 정수(소숫점 숫자는 무시)가 변경되면 업데이트 되며, 그 외에는 한전 사이트를 호출하지 않습니다.
