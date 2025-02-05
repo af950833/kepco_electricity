@@ -56,7 +56,7 @@ class KepcoElectricitySensor(SensorEntity, RestoreEntity):
 
     def __init__(self, config_entry):
         self._config_entry = config_entry
-        self._attr_name = config_entry.options.get("sensor_name", "kepco_bill")  # 사용자가 입력한 센서 이름 적용
+        self._attr_name = config_entry.options.get("sensor_name", "Kepco Bill")  # 사용자가 입력한 센서 이름 적용
         self._attr_unique_id = config_entry.entry_id
         self._state = None
         self._attributes = {}
