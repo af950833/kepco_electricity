@@ -26,7 +26,7 @@ class KepcoConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 user_input["wlfr_dc_clcd1"] = "" if user_input["wlfr_dc_clcd1"] == "none" else user_input["wlfr_dc_clcd1"]
                 user_input["wlfr_dc_clcd2"] = "" if user_input["wlfr_dc_clcd2"] == "none" else user_input["wlfr_dc_clcd2"]
 
-                user_input["sensor_name"] = user_input.get("sensor_name", "kepco_bill")  # 센서 이름 저장
+                user_input["sensor_name"] = user_input.get("sensor_name", "Kepco Bill")  # 센서 이름 저장
 
                 return self.async_create_entry(
                     title=user_input["sensor_name"], 
@@ -37,7 +37,7 @@ class KepcoConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         return self.async_show_form(
             step_id="user",
             data_schema=vol.Schema({
-                vol.Required("sensor_name", default="kepco_bill"): str,
+                vol.Required("sensor_name", default="Kepco Bill"): str,
                 vol.Required("meter_reading_day", default=25): vol.All(vol.Coerce(int),vol.Range(min=1, max=31)
                 ),
                 vol.Required("usage_entity"): selector.EntitySelector(
