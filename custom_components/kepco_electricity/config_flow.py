@@ -38,7 +38,21 @@ class KepcoConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             step_id="user",
             data_schema=vol.Schema({
                 vol.Required("sensor_name", default="Kepco Bill"): str,
-                vol.Required("meter_reading_day", default=25): vol.All(vol.Coerce(int),vol.Range(min=1, max=31)
+                vol.Required("meter_reading_day", default=25): selector.NumberSelector(
+                    selector.NumberSelectorConfig(
+                        min=1,
+                        max=31,
+                        step=1,
+                        mode="box"
+                    )
+                ),
+                vol.Required("meter_reading_day_offset", default=0): selector.NumberSelector(
+                    selector.NumberSelectorConfig(
+                        min=-5,
+                        max=5,
+                        step=1,
+                        mode="box"
+                    )
                 ),
                 vol.Required("usage_entity"): selector.EntitySelector(
                     selector.EntitySelectorConfig(
@@ -141,7 +155,22 @@ class KepcoOptionsFlow(config_entries.OptionsFlow):
             step_id="user",
             data_schema=vol.Schema({
                 vol.Required("sensor_name", default=options.get("sensor_name", "한국전력 요금")): str,
-                vol.Required("meter_reading_day", default=options.get("meter_reading_day", 25)): vol.All(vol.Coerce(int), vol.Range(min=1, max=31)),
+                vol.Required("meter_reading_day", default=options.get("meter_reading_day", 25)): selector.NumberSelector(
+                    selector.NumberSelectorConfig(
+                        min=1,
+                        max=31,
+                        step=1,
+                        mode="box"
+                    )
+                ),
+                vol.Required("meter_reading_day_offset", default=options.get("meter_reading_day_offset", 0)): selector.NumberSelector(
+                    selector.NumberSelectorConfig(
+                        min=-5,
+                        max=5,
+                        step=1,
+                        mode="box"
+                    )
+                ),
                 vol.Required("usage_entity", default=options.get("usage_entity")): selector.EntitySelector(
                     selector.EntitySelectorConfig(domain="sensor")
                 ),
