@@ -7,6 +7,7 @@
                 "description": "This integration calculates electricity bills for KEPCO.",
                 "data": {
                     "meter_reading_day": "Meter Reading Day",
+					"meter_reading_day_offset": "Meter Reading Day Offset(-5 ~ +5)",
                     "usage_entity": "Monthly Usage Sensor",
 					"sensor_name": "Sensor Name",
                     "lhv_clcd": "Contract Type",
@@ -27,6 +28,7 @@
                 "description": "Modify the configuration options.",
                 "data": {
                     "meter_reading_day": "Meter Reading Day",
+					"meter_reading_day_offset": "Meter Reading Day Offset(-5 ~ +5)",
                     "usage_entity": "Monthly Usage Sensor",
 					"sensor_name": "Sensor Name",
                     "lhv_clcd": "Contract Type",
