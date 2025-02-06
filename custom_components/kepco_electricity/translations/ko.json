@@ -7,6 +7,7 @@
                 "description": "이 통합구성요소는 한국전력 전기요금을 계산합니다.",
                 "data": {
                     "meter_reading_day": "검침일",
+					"meter_reading_day_offset": "검침일 오프셋(-5 ~ +5)",
                     "usage_entity": "월사용량 센서",
 					"sensor_name": "센서 이름",
                     "lhv_clcd": "계약종별",
@@ -27,6 +28,7 @@
                 "description": "설정 옵션을 변경하세요.",
                 "data": {
                     "meter_reading_day": "검침일",
+					"meter_reading_day_offset": "검침일 오프셋(-5 ~ +5)",
                     "usage_entity": "월사용량 센서",
 					"sensor_name": "센서 이름",
                     "lhv_clcd": "계약종별",
