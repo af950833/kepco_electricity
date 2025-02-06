@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 
 _LOGGER = logging.getLogger(__name__)
 
-def calculate_billing_period(meter_reading_day: int):
+def calculate_billing_period(meter_reading_day: int, offset: int):
     """검침일을 기준으로 start_date와 end_date 계산"""
 
     today = datetime.today()
@@ -21,14 +21,14 @@ def calculate_billing_period(meter_reading_day: int):
     except ValueError:
         # 이번 달에 해당 날짜가 없는 경우 (예: 2월 30일 등)
         last_day_this_month = (first_day_this_month + timedelta(days=32)).replace(day=1) - timedelta(days=1)
-        this_month_meter_date = last_day_this_month.replace(day=min(meter_reading_day, last_day_this_month.day))
+        this_month_meter_date = today.replace(day=min(meter_reading_day, last_day_this_month.day))
 
     # 검침일이 오늘보다 미래라면 (이번 달 검침일 전이라면)
     if today < this_month_meter_date:
         # 전달 검침일 계산
-        last_month = this_month_meter_date - timedelta(days=meter_reading_day)  # 전달 검침일
-        start_date = last_month.replace(day=meter_reading_day)
-        end_date = this_month_meter_date - timedelta(days=1)  # 이번 달 검침일 하루 전
+        last_day_last_month = first_day_this_month - timedelta(days=1)  # 전달 말일
+        start_date = last_day_last_month.replace(day=min(meter_reading_day,last_day_last_month.day)) + timedelta(days=offset)
+        end_date = this_month_meter_date - timedelta(days=1) + timedelta(days=offset) # 이번 달 검침일 하루 전
     else:
         # 다음 달 검침일 계산
         first_day_next_month = (first_day_this_month + timedelta(days=32)).replace(day=1)
@@ -39,8 +39,8 @@ def calculate_billing_period(meter_reading_day: int):
             last_day_next_month = (first_day_next_month + timedelta(days=32)).replace(day=1) - timedelta(days=1)
             next_month_meter_date = last_day_next_month.replace(day=min(meter_reading_day, last_day_next_month.day))
 
-        start_date = this_month_meter_date  # 이번 달 검침일부터
-        end_date = next_month_meter_date - timedelta(days=1)  # 다음 달 검침일 하루 전
+        start_date = this_month_meter_date + timedelta(days=offset) # 이번 달 검침일 + offset
+        end_date = next_month_meter_date - timedelta(days=1) + timedelta(days=offset)  # 다음 달 검침일 하루 전 + offset
 
     return start_date.strftime("%Y%m%d"), end_date.strftime("%Y%m%d")
 
@@ -94,6 +94,7 @@ class KepcoElectricitySensor(SensorEntity, RestoreEntity):
             options = self._config_entry.options
             
             reading_day = options.get("meter_reading_day", 25)
+            offset = options.get("meter_reading_day_offset", 0)
             usage_entity = options.get("usage_entity")
 
             # 사용량 조회
@@ -108,7 +109,7 @@ class KepcoElectricitySensor(SensorEntity, RestoreEntity):
             self._last_integer_usage = usage
 
             # 날짜 계산
-            start_date, end_date = calculate_billing_period(reading_day)
+            start_date, end_date = calculate_billing_period(int(reading_day),int(offset))
 
             # API 요청 데이터
             payload = {
