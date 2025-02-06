@@ -180,6 +180,8 @@ class KepcoElectricitySensor(SensorEntity, RestoreEntity):
                 "주거구분 선택": dwelling_type,
                 "복지할인 선택": welfare_discount,
                 "대가족요금/생명유지장치 선택": family_discount,
+                "검침일": reading_day,
+                "검침일 오프셋": offset,
                 "검침 시작일": start_date,
                 "검침 종료일": end_date,
                 "월사용량": self._last_integer_usage,
