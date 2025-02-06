@@ -110,6 +110,18 @@ class KepcoElectricitySensor(SensorEntity, RestoreEntity):
 
             # 날짜 계산
             start_date, end_date = calculate_billing_period(int(reading_day),int(offset))
+            
+            # 월사용량 예측
+            now = datetime.now()
+            start_date_no_offset_str, end_date_no_offset_str = calculate_billing_period(int(reading_day),0)
+            start_date_no_offset = datetime.strptime(start_date_no_offset_str, "%Y%m%d")
+            end_date_no_offset = datetime.strptime(end_date_no_offset_str, "%Y%m%d") 
+            total_days = (end_date_no_offset - start_date_no_offset).days + 1
+            total_seconds = total_days * 86400
+            elapsed_seconds_today = now.hour * 3600 + now.minute * 60 + now.second
+            elapsed_seconds = ((now.date() - start_date_no_offset.date()).days * 86400) + elapsed_seconds_today
+            elapsed_ratio = elapsed_seconds / total_seconds
+            predicted_usage = int((usage / elapsed_ratio)) if elapsed_ratio > 0 else usage
 
             # API 요청 데이터
             payload = {
@@ -185,6 +197,7 @@ class KepcoElectricitySensor(SensorEntity, RestoreEntity):
                 "검침 시작일": start_date,
                 "검침 종료일": end_date,
                 "월사용량": self._last_integer_usage,
+                "예상사용량": predicted_usage,
                 "기본 요금": res_obj.get("costBasic", 0),
                 "전력량 요금": res_obj.get("costUse", 0),
                 "연료비조정 요금": res_obj.get("costFuel", 0),
