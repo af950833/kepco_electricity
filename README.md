@@ -3,7 +3,7 @@ Home Assistant - 한전 전기요금계산기
 
 ![Kepco Logo](images/logo.png)
 
-Home Assistant에서 한국ON 전기요금계산기의 요금을 센서로 사용하기 위해 만든 Custom Component 입니다.
+Home Assistant에서 한전ON 전기요금계산기의 요금을 센서로 사용하기 위해 만든 Custom Component 입니다.
 
 ## 1. 한전 On 계산기 사이트 링크
 https://online.kepco.co.kr/PRM033D00
