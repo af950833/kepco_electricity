@@ -99,7 +99,10 @@ class KepcoElectricitySensor(SensorEntity, RestoreEntity):
 
             # 사용량 조회
             state = self.hass.states.get(usage_entity)
-            usage = int(float(state.state)) if state else 0
+            if not state or state.state in ("unknown", "unavailable", "None", ""):
+                _LOGGER.debug("사용량 엔티티 상태가 없어 업데이트를 건너뜁니다: %s", getattr(state, 'state', None))
+                return
+            usage = int(float(state.state))
             
             # 정수 부분이 변경되었는지 확인
             if self._last_integer_usage is not None and self._last_integer_usage == usage:
