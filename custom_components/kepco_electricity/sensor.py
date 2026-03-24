@@ -1,6 +1,10 @@
 import aiohttp
 import logging
-from homeassistant.components.sensor import SensorEntity
+from homeassistant.components.sensor import (
+    SensorEntity,
+    SensorDeviceClass,
+    SensorStateClass,
+)
 from homeassistant.helpers.restore_state import RestoreEntity
 from .const import DOMAIN
 from datetime import datetime, timedelta
@@ -51,8 +55,10 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
 class KepcoElectricitySensor(SensorEntity, RestoreEntity):
     """한국전력 전기요금 계산 센서"""
 
-    _attr_icon = "mdi:flash"
-    _attr_native_unit_of_measurement = "원"
+    _attr_icon = "mdi:cash"
+    _attr_device_class = SensorDeviceClass.MONETARY
+    _attr_state_class = SensorStateClass.TOTAL
+    _attr_native_unit_of_measurement = "KRW"
 
     def __init__(self, config_entry):
         self._config_entry = config_entry
